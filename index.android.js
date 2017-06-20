@@ -1,5 +1,4 @@
 import { AppRegistry } from 'react-native'
-import Root from './app/index.js'
-import App from './app/containers/app.js'
+import App from './app/index.js'
 
-AppRegistry.registerComponent('reading', () => Root);
+AppRegistry.registerComponent('reading', () => App);

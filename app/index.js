@@ -1,12 +1,12 @@
 import React from 'react'
 import store from './store'
 import { Provider } from 'react-redux'
-import App from './containers/app.js'
+import Router from './router'
 
-const Root = () => (
+const App = () => (
     <Provider store={store}>
-        <App />
+        <Router />
     </Provider>
 )
 
-export default Root
+export default App
