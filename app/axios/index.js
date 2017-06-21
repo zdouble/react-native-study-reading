@@ -6,6 +6,7 @@ const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
+    console.log(config)
     return config
 }, (error) => {
     return Promise.reject(error)
