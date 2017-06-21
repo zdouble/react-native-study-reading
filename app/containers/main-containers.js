@@ -5,10 +5,10 @@ import Main from '../views/main'
 class MainContainers extends Component {
     render() {
         return (
-            <Main {...this.props}/>
-        );
+            <Main {...this.props} />
+        )
     }
 }
 export default connect(
-    ({user}) => ({user}),
+    ({ user }) => ({ user })
 )(MainContainers)

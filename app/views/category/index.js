@@ -3,12 +3,11 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 // create a component
-class MyClass extends Component {
+class Category extends Component {
     render() {
-        console.log(this.props)
         return (
             <View style={styles.container}>
-                <Text>MyClass</Text>
+                <Text>Category</Text>
             </View>
         )
     }
@@ -25,4 +24,4 @@ const styles = StyleSheet.create({
 })
 
 // make this component available to the app
-export default MyClass
+export default Category

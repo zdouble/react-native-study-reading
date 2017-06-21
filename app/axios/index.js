@@ -2,19 +2,18 @@ import axios from 'axios'
 
 const http = axios.create({
     baseURL: 'https://route.showapi.com',
-    timeout: 10000,
-    
+    timeout: 10000
 })
 
-http.interceptors.request.use(function (config) {
+http.interceptors.request.use((config) => {
     return config
-}, function (error) {
+}, (error) => {
     return Promise.reject(error)
 })
 
-http.interceptors.response.use(function (response) {
+http.interceptors.response.use((response) => {
     return response.data
-}, function (error) {
+}, (error) => {
     console.log('出错了')
     return Promise.reject(error)
 })

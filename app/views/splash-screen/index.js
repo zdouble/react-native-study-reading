@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import {
-    Image,
     StyleSheet,
     Dimensions,
-    Animated,
-    Easing
+    Animated
 } from 'react-native'
 
 const {
@@ -23,9 +21,11 @@ class SplashScreen extends Component {
     componentDidMount() {
         Animated.timing(this.state.scaleValue, {
             toValue: 1.2,
-            duration: 1000,
-            easing: Easing.linear
-        }).start()
+            duration: 1000
+        }).start(() => {
+            console.log(this)
+            this.props.navigation.navigate('Category')
+        })
     }
 
     render() {
