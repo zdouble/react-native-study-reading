@@ -23,7 +23,6 @@ class SplashScreen extends Component {
             toValue: 1.2,
             duration: 1000
         }).start(() => {
-            console.log(this)
             this.props.navigation.navigate('Category')
         })
     }

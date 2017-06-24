@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation'
 import Main from '../containers/main-containers.js'
-import CategoryContainers from '../containers/category-containers.js'
+import Category from '../containers/category-containers.js'
 import SplashScreen from '../views/splash-screen'
 
 const router = StackNavigator(
@@ -18,14 +18,22 @@ const router = StackNavigator(
             }
         },
         Category: {
-            screen: CategoryContainers,
+            screen: Category,
             navigationOptions: {
-                header: null
+                headerTitle: '分类'
             }
         }
     },
     {
-        initialRouteName: 'SplashScreen'
+        initialRouteName: 'Category',
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#3e9ce9'
+            },
+            headerTitleStyle: {
+                color: '#fff'
+            }
+        }
     }
 )
 

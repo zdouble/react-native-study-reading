@@ -1,8 +1,7 @@
-import http from '../axios'
+import { post } from '../axios'
 
 const getTypeList = () => {
-    http('/582')
-        .then(res => console.log(res))
+    return post('/582-1')
 }
 
 export {

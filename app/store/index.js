@@ -7,6 +7,7 @@ const middlewares = [thunk]
 
 if (__DEV__) {
     middlewares.push(logger)
+    // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest
 }
 
 const store = createStore(
