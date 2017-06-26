@@ -11,7 +11,6 @@ const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
-    console.log(config)
     return config
 }, (error) => {
     return Promise.reject(error)
@@ -26,12 +25,12 @@ http.interceptors.response.use((response) => {
 
 const get = (url, params = {}) => {
     return http.get(url, {
-        params: params || {}
+        params: params
     })
 }
 
 const post = (url, data = {}) => {
-    return http.post(url, data)
+    return http.post(url, qs.stringify(data))
 }
 
 export default http
