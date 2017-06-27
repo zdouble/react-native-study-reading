@@ -11,6 +11,21 @@ const tabContainer = TabNavigator(
         Category: { screen: Category },
         Feedback: { screen: Feedback },
         About: { screen: About }
+    },
+    {
+        lazy: true,
+        tabBarPosition: 'bottom',
+        tabBarOptions: {
+            showIcon: true,
+            indicatorStyle: {
+                height: 0
+            },
+            activeTintColor: '#3e9ce9',
+            inactiveTintColor: '#999',
+            style: {
+                backgroundColor: '#fff'
+            }
+        }
     }
 )
 

@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
+import Icon from 'react-native-vector-icons/Ionicons'
 import { View, Text, StyleSheet } from 'react-native'
 
 class Feedback extends Component {
     static navigationOptions = {
-        title: '建议'
+        title: '建议',
+        tabBarIcon: ({ tintColor }) => (
+            <Icon name="md-thumbs-up" size={25} color={tintColor} />
+        )
     }
     render() {
         return (

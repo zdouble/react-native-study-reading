@@ -1,28 +1,34 @@
-// import liraries
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
 
-// create a component
 class MyClass extends Component {
     render() {
-        console.log(this.props)
         return (
-            <View style={styles.container}>
-                <Text>MyClass</Text>
-            </View>
+            <ScrollableTabView
+                style={styles.container}
+                renderTabBar={() => <DefaultTabBar backgroundColor='rgba(255, 255, 255, 0.7)' />}
+                tabBarPosition='overlayTop'
+            >
+                <View tabLabel='iOS' style={styles.tabView}>
+                    <Text>11</Text>
+                </View>
+                <View tabLabel='Android' style={styles.tabView}>
+                    <Text>22</Text>
+                </View>
+            </ScrollableTabView>
         )
     }
 }
 
-// define your styles
 const styles = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    tabView: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50'
+        backgroundColor: '#000'
     }
 })
 
-// make this component available to the app
 export default MyClass
