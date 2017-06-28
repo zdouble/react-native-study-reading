@@ -1,34 +1,32 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
+import {
+    View,
+    Text,
+    StyleSheet
+} from 'react-native'
+import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
+import { getArticleList } from '../../api'
+import ArticleList from './article-list.js'
 
-class MyClass extends Component {
+class Main extends Component {
+    componentWillMount() {
+        getArticleList({ typeId: 19, page: 20 })
+            .then(res => console.log(res))
+    }
     render() {
         return (
             <ScrollableTabView
-                style={styles.container}
-                renderTabBar={() => <DefaultTabBar backgroundColor='rgba(255, 255, 255, 0.7)' />}
-                tabBarPosition='overlayTop'
+                renderTabBar={() => <ScrollableTabBar />}
+                tabBarUnderlineStyle={{ backgroundColor: 'red' }}
+                tabBarBackgroundColor="red"
             >
-                <View tabLabel='iOS' style={styles.tabView}>
-                    <Text>11</Text>
-                </View>
-                <View tabLabel='Android' style={styles.tabView}>
-                    <Text>22</Text>
-                </View>
+                <ArticleList tabLabel="test" />
+                <ArticleList tabLabel="test2" />
+                <ArticleList tabLabel="test3" />
+
             </ScrollableTabView>
         )
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    tabView: {
-        flex: 1,
-        backgroundColor: '#000'
-    }
-})
-
-export default MyClass
+export default Main

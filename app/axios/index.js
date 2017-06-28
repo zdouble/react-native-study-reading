@@ -6,7 +6,7 @@ const http = axios.create({
     timeout: 10000,
     params: {
         showapi_appid: 40735,
-        showapi_sign: '4F1574C061735B1C948459260B76DF95'
+        showapi_sign: '8a8fde5da6624e5987ce88fa46f2adf7'
     }
 })
 

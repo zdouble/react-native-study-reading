@@ -1,14 +1,14 @@
 import { StackNavigator, TabNavigator } from 'react-navigation'
-import Main from '../containers/main-containers.js'
-import Category from '../containers/category-containers.js'
+import MainContainers from '../containers/main-containers.js'
+import CategoryContainers from '../containers/category-containers.js'
 import SplashScreen from '../views/splash-screen'
 import Feedback from '../views/feedback'
 import About from '../views/about'
 
 const tabContainer = TabNavigator(
     {
-        Main: { screen: Main },
-        Category: { screen: Category },
+        Main: { screen: MainContainers },
+        Category: { screen: CategoryContainers },
         Feedback: { screen: Feedback },
         About: { screen: About }
     },
@@ -34,7 +34,7 @@ const router = StackNavigator(
         Home: {
             screen: tabContainer,
             navigationOptions: {
-                header: null
+                headerLeft: null
             }
         },
         SplashScreen: {
@@ -44,7 +44,7 @@ const router = StackNavigator(
             }
         },
         Category: {
-            screen: Category,
+            screen: CategoryContainers,
             navigationOptions: {
                 headerTitle: '分类'
             }

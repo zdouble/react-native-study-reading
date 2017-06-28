@@ -1,9 +1,14 @@
-import { post } from '../axios'
+import { get } from '../axios'
 
 const getTypeList = () => {
-    return post('/582-1')
+    return get('/582-1')
+}
+
+const getArticleList = ({typeId, page}) => {
+    return get('/582-2', {typeId, page})
 }
 
 export {
-    getTypeList
+    getTypeList,
+    getArticleList
 }
