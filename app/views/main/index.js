@@ -17,8 +17,10 @@ class Main extends Component {
         return (
             <ScrollableTabView
                 renderTabBar={() => <ScrollableTabBar />}
-                tabBarUnderlineStyle={{ backgroundColor: 'red' }}
-                tabBarBackgroundColor="red"
+                tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
+                tabBarActiveTextColor="#3e9ce9"
+                tabBarBackgroundColor="#fff"
+                style={{ padding: 0 }}
             >
                 <ArticleList tabLabel="test" />
                 <ArticleList tabLabel="test2" />
