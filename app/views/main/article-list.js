@@ -9,7 +9,7 @@ class ArticleList extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>ArticleList</Text>
+                <Text>ArticleList1</Text>
             </View>
         )
     }
