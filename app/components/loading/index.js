@@ -12,7 +12,7 @@ const Loading = ({ color, size, text, style }) => {
 
 Loading.defaultProps = {
     color: '#3e9ce9',
-    text: '正在加载数据',
+    text: '数据加载中',
     style: { flex: 1 }
 }
 
