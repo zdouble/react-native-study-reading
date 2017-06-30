@@ -4,6 +4,7 @@ import CategoryContainers from '../containers/category-containers.js'
 import SplashScreen from '../views/splash-screen'
 import Feedback from '../views/feedback'
 import About from '../views/about'
+import WebViewPage from '../views/web-view-page'
 
 const tabContainer = TabNavigator(
     {
@@ -44,10 +45,10 @@ const router = StackNavigator(
             }
         },
         Category: {
-            screen: CategoryContainers,
-            navigationOptions: {
-                headerTitle: '分类'
-            }
+            screen: CategoryContainers
+        },
+        WebViewPage: {
+            screen: WebViewPage
         }
     },
     {
@@ -58,7 +59,8 @@ const router = StackNavigator(
             },
             headerTitleStyle: {
                 color: '#fff'
-            }
+            },
+            headerTintColor: '#fff'
         }
     }
 )

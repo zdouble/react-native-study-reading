@@ -4,11 +4,14 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    Image
+    Image,
+    RefreshControl,
+    TouchableOpacity
 } from 'react-native'
 
 import { getArticleList } from '../../api'
 import { dateFormat } from '../../utils'
+import Loading from '../../components/loading'
 
 class ArticleList extends Component {
     constructor(props) {
@@ -42,7 +45,10 @@ class ArticleList extends Component {
     _renderItem = ({ item: artilce }) => {
         // console.log(artilce)
         return (
-            <View style={styles.artilceContainer}>
+            <TouchableOpacity
+                style={styles.artilceContainer}
+                onPress={() => this.props.navigation.navigate('WebViewPage', { url: artilce.url, title: artilce.title })}
+            >
                 <Image
                     style={styles.artilceImage}
                     source={{ uri: artilce.contentImg }}
@@ -60,7 +66,7 @@ class ArticleList extends Component {
                     </View>
                 </View>
 
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -79,18 +85,24 @@ class ArticleList extends Component {
 
     renderContent() {
         const data = this.state.data
-        if (!data) {
-            return null
+        if (!data.length) {
+            return <Loading size="large" />
         }
         return (
             <FlatList
                 data={data}
                 renderItem={this._renderItem}
                 getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
-                onRefresh={this._onRefresh}
                 onEndReached={this._onEndReached}
-                refreshing={this.state.refreshing}
                 keyExtractor={this._keyExtractor}
+                ListFooterComponent={() => <Loading />}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                        colors={['#3e9ce9']}
+                    />
+                }
             />
         )
     }

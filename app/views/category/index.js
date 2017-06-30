@@ -3,12 +3,12 @@ import {
     View,
     Text,
     StyleSheet,
-    ActivityIndicator,
     ScrollView
 } from 'react-native'
 import store from 'react-native-simple-store'
 import { getTypeList } from '../../api'
 import Button from '../../components/button'
+import Loading from '../../components/loading'
 
 class Category extends Component {
     constructor(props) {
@@ -25,17 +25,8 @@ class Category extends Component {
     }
 
     renderContent() {
-        const loading = (
-            <View style={styles.loading}>
-                <ActivityIndicator
-                    animating
-                    size="large"
-                />
-                <Text>数据正在加载</Text>
-            </View>
-        )
         if (!this.state.typeList) {
-            return loading
+            return <Loading size="large" />
         }
 
         let arr = this.state.typeList.map(item => {

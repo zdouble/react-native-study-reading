@@ -15,6 +15,11 @@ class Main extends Component {
                 <ArticleList
                     tabLabel="test"
                     typeId={14}
+                    navigation={this.props.navigation}
+                />
+                <ArticleList
+                    tabLabel="test2"
+                    typeId={19}
                 />
             </ScrollableTabView>
         )
