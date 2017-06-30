@@ -3,17 +3,17 @@ const dateFormat = (date) => {
     if (time / 60 < 1) {
         time = `${time}秒前`
     } else if (time / (60 * 60) < 1) {
-        time = `${parseInt(time / 60)}分前`
+        time = `${time / 60}分前`
     } else if (time / (60 * 60 * 24) < 1) {
-        time = `${parseInt(time / (60 * 60))}小时前`
+        time = `${time / (60 * 60)}小时前`
     } else if (time / (60 * 60 * 24 * 30) < 1) {
-        time = `${parseInt(time / (60 * 60 * 24))}天前`
+        time = `${time / (60 * 60 * 24)}天前`
     } else if (time / (60 * 60 * 24 * 30 * 365) < 1) {
-        time = `${parseInt(time / (60 * 60 * 24 * 30))}月前`
+        time = `${time / (60 * 60 * 24 * 30)}月前`
     } else {
-        time = `${parseInt(time / (60 * 60 * 24 * 30 * 365))}年前`
+        time = `${time / (60 * 60 * 24 * 30 * 365)}年前`
     }
-    return time
+    return parseInt(time)
 }
 
 export {
