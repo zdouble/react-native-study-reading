@@ -31,7 +31,6 @@ class ArticleList extends Component {
     fetchDate() {
         getArticleList({ typeId: this.props.typeId, page: this.state.page })
             .then(res => {
-                console.log(res)
                 let data = res.showapi_res_body.pagebean.contentlist.filter(item => !item.expire)
                 if (this.state.moreLoading) {
                     this.setState({ data: [...this.state.data, ...data] })
