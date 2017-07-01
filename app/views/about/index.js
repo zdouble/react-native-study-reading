@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { View, Text, StyleSheet } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
+import { View, Text, StyleSheet, Image } from 'react-native'
+
+const logo = require('../../assets/images/about_logo.png')
 
 class About extends Component {
     static navigationOptions = {
@@ -10,9 +13,19 @@ class About extends Component {
         )
     }
     render() {
+        console.log(this.props)
         return (
             <View style={styles.container}>
-                <Text>About</Text>
+                <View style={styles.content}>
+                    <Image style={styles.logo} source={logo} />
+                    <Text style={styles.version}>{DeviceInfo.getVersion()}</Text>
+                    <Text style={styles.title}>iReading</Text>
+                    <Text style={styles.subTitle}>让生活更精彩</Text>
+                </View>
+                <View>
+                    <Text>免责声明：所有内容均来自:</Text>
+                    <Text>https://www.showapi.com</Text>
+                </View>
             </View>
         )
     }
@@ -21,9 +34,17 @@ class About extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2c3e50'
+        backgroundColor: '#fff'
+    },
+    content: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    logo: {
+        width: 110,
+        height: 110,
+        marginTop: 50
     }
 })
 
