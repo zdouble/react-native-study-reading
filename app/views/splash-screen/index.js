@@ -4,6 +4,7 @@ import {
     Dimensions,
     Animated
 } from 'react-native'
+import store from 'react-native-simple-store'
 
 const {
     width: maxWidth,
@@ -22,8 +23,13 @@ class SplashScreen extends Component {
         Animated.timing(this.state.scaleValue, {
             toValue: 1.2,
             duration: 1000
-        }).start(() => {
-            this.props.navigation.navigate('Category')
+        }).start(async() => {
+            const isFirst = await store.get('isFirst')
+            if (isFirst) {
+                this.props.navigation.navigate('Home')
+            } else {
+                this.props.navigation.navigate('Category')
+            }
         })
     }
 

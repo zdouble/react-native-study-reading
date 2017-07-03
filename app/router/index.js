@@ -52,7 +52,7 @@ const router = StackNavigator(
         }
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'SplashScreen',
         navigationOptions: {
             headerStyle: {
                 backgroundColor: '#3e9ce9'

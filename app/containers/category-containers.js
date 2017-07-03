@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux'
 import Category from '../views/category'
 
 class CategoryContainers extends Component {
@@ -12,9 +13,11 @@ class CategoryContainers extends Component {
 
     render() {
         return (
-            <Category />
+            <Category isFirst={this.props.user.isFirst} />
         )
     }
 }
 
-export default CategoryContainers
+export default connect(
+    ({ user }) => ({ user })
+)(CategoryContainers)
