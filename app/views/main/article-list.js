@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 
 import { getArticleList } from '../../api'
-import { dateFormat } from '../../utils'
+import dateFormat from '../../utils/date-format.js'
 import Loading from '../../components/loading'
 
 class ArticleList extends Component {
@@ -42,7 +42,6 @@ class ArticleList extends Component {
     }
 
     _renderItem = ({ item: artilce }) => {
-        // console.log(artilce)
         return (
             <TouchableOpacity
                 style={styles.artilceContainer}

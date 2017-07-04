@@ -1,4 +1,4 @@
-import { SET_CATEGORY_TYPE_LIST } from '../constants/ActionTypes.js'
+import { SET_CATEGORY_TYPE_LIST } from '../constants/action-types.js'
 
 const setTypeList = (data) => {
     return {

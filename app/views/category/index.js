@@ -14,14 +14,21 @@ class Category extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            typeListData: null
+            typeList: null
         }
     }
 
     componentWillMount() {
-        store.get('typeList').then(res => this.setState({ tempDate: res || [] }))
+        store.get('typeList').then(res => {
+            this.setState({ tempDate: res || [] })
+            this.props.actions.categoryActions.setTypeList(res || [])
+        })
         getTypeList()
             .then(res => this.setState({ typeList: res.showapi_res_body.typeList }))
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({ selectType: this.selectType })
     }
 
     renderContent() {
@@ -89,24 +96,33 @@ class Category extends Component {
     }
 
     selectType = () => {
-        store.save('typeList', this.state.tempDate)
+        let data = this.state.tempDate.length === 0 ? this.state.typeList : this.state.tempDate
+        store.save('typeList', data)
+            .then(() => this.props.actions.categoryActions.setTypeList(data))
+            .then(() => store.save('isFirst', false))
+            .then(() => this.props.actions.userActions.setUserIsFirst(false))
+            .then(() => store.save('category', data))
+            .then(() => this.props.navigation.navigate('Home'))
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text>初次见面，请选择您感兴趣的类别</Text>
+                    <Text>{`${this.props.user.isFirst ? '初次见面,' : ''}请选择您感兴趣的类别`}</Text>
                 </View>
                 {this.renderContent()}
-                <Button
-                    containerStyle={styles.footBtnContainer}
-                    textStyle={{
-                        color: '#fff'
-                    }}
-                    text='确认'
-                    onPress={this.selectType}
-                />
+                {
+                    this.props.user.isFirst &&
+                    <Button
+                        containerStyle={styles.footBtnContainer}
+                        textStyle={{
+                            color: '#fff'
+                        }}
+                        text='确认'
+                        onPress={this.selectType}
+                    />
+                }
             </View>
         )
     }

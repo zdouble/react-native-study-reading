@@ -17,6 +17,7 @@ class MainContainers extends Component {
         )
     }
 }
+
 export default connect(
-    ({ user }) => ({ user })
+    ({ category }) => ({ category })
 )(MainContainers)

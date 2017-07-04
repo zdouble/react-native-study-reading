@@ -1,13 +1,13 @@
 import { SET_USER_ISFIRST } from '../constants/action-types.js'
 
 const initState = {
-    isFirst: false
+    isFirst: true
 }
 
 const user = (state = initState, action) => {
     switch (action.type) {
         case SET_USER_ISFIRST:
-            return action.isFirst
+            return { ...state, isFirst: action.isFirst }
         default:
             return state
     }

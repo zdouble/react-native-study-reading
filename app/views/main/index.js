@@ -12,16 +12,16 @@ class Main extends Component {
                 tabBarBackgroundColor="#fff"
                 style={{ padding: 0 }}
             >
-                <ArticleList
-                    tabLabel="test"
-                    typeId={14}
-                    navigation={this.props.navigation}
-                />
-                <ArticleList
-                    tabLabel="test2"
-                    typeId={19}
-                    navigation={this.props.navigation}
-                />
+                {
+                    this.props.category.map(item => (
+                        <ArticleList
+                            key={item.id}
+                            tabLabel={item.name}
+                            typeId={item.id}
+                            navigation={this.props.navigation}
+                        />
+                    ))
+                }
             </ScrollableTabView>
         )
     }

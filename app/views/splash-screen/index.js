@@ -5,6 +5,10 @@ import {
     Animated
 } from 'react-native'
 import store from 'react-native-simple-store'
+import routeReset from '../../utils/router-reset.js'
+import { setTypeList } from '../../actions/category.js'
+import { setUserIsFirst } from '../../actions/user.js'
+import reduxStore from '../../store'
 
 const {
     width: maxWidth,
@@ -23,12 +27,16 @@ class SplashScreen extends Component {
         Animated.timing(this.state.scaleValue, {
             toValue: 1.2,
             duration: 1000
-        }).start(async() => {
+        }).start(async () => {
             const isFirst = await store.get('isFirst')
-            if (isFirst) {
-                this.props.navigation.navigate('Home')
+            const navigation = this.props.navigation
+            if (isFirst == null) {
+                routeReset({ navigation, routeName: 'Category', params: { isFirst: true } })
             } else {
-                this.props.navigation.navigate('Category')
+                const category = await store.get('category')
+                reduxStore.dispatch(setTypeList(category))
+                reduxStore.dispatch(setUserIsFirst(false))
+                routeReset({ navigation, routeName: 'Home' })
             }
         })
     }
