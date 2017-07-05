@@ -27,7 +27,7 @@ class SplashScreen extends Component {
         Animated.timing(this.state.scaleValue, {
             toValue: 1.2,
             duration: 1000
-        }).start(async () => {
+        }).start(async() => {
             const isFirst = await store.get('isFirst')
             const navigation = this.props.navigation
             if (isFirst == null) {

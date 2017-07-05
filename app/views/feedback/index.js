@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { View, TextInput, StyleSheet, ToastAndroid, Keyboard } from 'react-native'
+import {
+    View,
+    TextInput,
+    StyleSheet,
+    ToastAndroid,
+    Keyboard
+} from 'react-native'
 
 let feedbackText = ''
 

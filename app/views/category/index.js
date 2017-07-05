@@ -9,6 +9,7 @@ import store from 'react-native-simple-store'
 import { getTypeList } from '../../api'
 import Button from '../../components/button'
 import Loading from '../../components/loading'
+import routeReset from '../../utils/router-reset.js'
 
 class Category extends Component {
     constructor(props) {
@@ -102,7 +103,7 @@ class Category extends Component {
             .then(() => store.save('isFirst', false))
             .then(() => this.props.actions.userActions.setUserIsFirst(false))
             .then(() => store.save('category', data))
-            .then(() => this.props.navigation.navigate('Home'))
+            .then(() => routeReset({ navigation: this.props.navigation, routeName: 'Home' }))
     }
 
     render() {
