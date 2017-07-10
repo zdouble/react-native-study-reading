@@ -3,6 +3,17 @@ import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab
 import ArticleList from './article-list.js'
 
 class Main extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            locked: false
+        }
+    }
+
+    changeLockedStatus = (State) => {
+        this.setState({ locked: State })
+    }
+
     render() {
         return (
             <ScrollableTabView
@@ -10,6 +21,7 @@ class Main extends Component {
                 tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarBackgroundColor="#fff"
+                locked={this.state.locked}
                 style={{ padding: 0 }}
             >
                 {
@@ -19,6 +31,7 @@ class Main extends Component {
                             tabLabel={item.name}
                             typeId={item.id}
                             navigation={this.props.navigation}
+                            changeLockedStatus={this.changeLockedStatus}
                         />
                     ))
                 }

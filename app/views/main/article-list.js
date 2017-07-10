@@ -3,7 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList,
+    ListView,
     Image,
     RefreshControl,
     TouchableOpacity
@@ -20,7 +20,8 @@ class ArticleList extends Component {
             data: [],
             refreshing: false,
             moreLoading: false,
-            page: 1
+            page: 1,
+            dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
         }
     }
 
@@ -33,9 +34,13 @@ class ArticleList extends Component {
             .then(res => {
                 let data = res.showapi_res_body.pagebean.contentlist.filter(item => !item.expire)
                 if (this.state.moreLoading) {
-                    this.setState({ data: [...this.state.data, ...data] })
+                    this.setState({ data: [...this.state.data, ...data] }, () => {
+                        this.state.dataSource.cloneWithRows(this.state.data)
+                    })
                 } else {
-                    this.setState({ data })
+                    this.setState({ data }, () => {
+                        this.state.dataSource.cloneWithRows(this.state.data)
+                    })
                 }
                 this.setState({ moreLoading: false, refreshing: false })
             })
@@ -68,12 +73,18 @@ class ArticleList extends Component {
         )
     }
 
+    _renderRow(rowData, sectionID, rowID, highlightRow) {
+        return <Text>111</Text>
+    }
+
     _onRefresh = () => {
+        this.props.changeLockedStatus(true)
         this.setState({ refreshing: true, page: 1 }, () => {
             this.fetchDate()
         })
     }
     _onEndReached = () => {
+        this.props.changeLockedStatus(false)
         this.setState({ moreLoading: true, page: ++this.state.page }, () => {
             this.fetchDate()
         })
@@ -82,18 +93,21 @@ class ArticleList extends Component {
     _keyExtractor = (item, index) => item.id
 
     renderContent() {
-        const data = this.state.data
+        let data = this.state.data
         if (!data.length) {
             return <Loading size="large" />
         }
+        this.state.dataSource.cloneWithRows(this.state.data)
         return (
-            <FlatList
-                data={data}
-                renderItem={this._renderItem}
-                getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
+            <ListView
+                dataSource={this.state.dataSource}
+                // renderItem={this._renderItem}
+                renderRow={this._renderRow}
+                // getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
                 onEndReached={this._onEndReached}
-                keyExtractor={this._keyExtractor}
-                ListFooterComponent={() => <Loading />}
+                // keyExtractor={this._keyExtractor}
+                // ListFooterComponent={() => <Loading />}
+                renderFooter={() => <Loading />}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
