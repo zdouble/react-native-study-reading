@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     ListView,
+    FlatList,
     Image,
     RefreshControl,
     TouchableOpacity
@@ -35,11 +36,15 @@ class ArticleList extends Component {
                 let data = res.showapi_res_body.pagebean.contentlist.filter(item => !item.expire)
                 if (this.state.moreLoading) {
                     this.setState({ data: [...this.state.data, ...data] }, () => {
-                        this.state.dataSource.cloneWithRows(this.state.data)
+                        this.setState({
+                            dataSource: this.state.dataSource.cloneWithRows(this.state.data)
+                        })
                     })
                 } else {
                     this.setState({ data }, () => {
-                        this.state.dataSource.cloneWithRows(this.state.data)
+                        this.setState({
+                            dataSource: this.state.dataSource.cloneWithRows(this.state.data)
+                        })
                     })
                 }
                 this.setState({ moreLoading: false, refreshing: false })
@@ -73,18 +78,40 @@ class ArticleList extends Component {
         )
     }
 
-    _renderRow(rowData, sectionID, rowID, highlightRow) {
-        return <Text>111</Text>
+    _renderRow = (rowData, sectionID, rowID, highlightRow) => {
+        let artilce = rowData
+        return <TouchableOpacity
+            style={styles.artilceContainer}
+            onPress={() => this.props.navigation.navigate('WebViewPage', { url: artilce.url, title: artilce.title })}
+        >
+            <Image
+                style={styles.artilceImage}
+                source={{ uri: artilce.contentImg }}
+            />
+            <View style={styles.artilceContent}>
+                <Text
+                    key={artilce._id}
+                    numberOfLines={2}
+                >
+                    {artilce.title}
+                </Text>
+                <View style={styles.artilceInfo}>
+                    <Text style={styles.artilceSource}>{artilce.userName}</Text>
+                    <Text style={styles.artilceDate}>{dateFormat(artilce.date)}</Text>
+                </View>
+            </View>
+
+        </TouchableOpacity>
     }
 
     _onRefresh = () => {
-        this.props.changeLockedStatus(true)
+        // this.props.changeLockedStatus(true)
         this.setState({ refreshing: true, page: 1 }, () => {
             this.fetchDate()
         })
     }
     _onEndReached = () => {
-        this.props.changeLockedStatus(false)
+        // this.props.changeLockedStatus(false)
         this.setState({ moreLoading: true, page: ++this.state.page }, () => {
             this.fetchDate()
         })
@@ -97,17 +124,18 @@ class ArticleList extends Component {
         if (!data.length) {
             return <Loading size="large" />
         }
-        this.state.dataSource.cloneWithRows(this.state.data)
+        // this.state.dataSource.cloneWithRows(this.state.data)
         return (
             <ListView
+                //data={data}
+                //renderItem={this._renderItem}
+                //getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
+                //keyExtractor={this._keyExtractor}
+                //ListFooterComponent={() => <Loading />}
                 dataSource={this.state.dataSource}
-                // renderItem={this._renderItem}
                 renderRow={this._renderRow}
-                // getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
-                onEndReached={this._onEndReached}
-                // keyExtractor={this._keyExtractor}
-                // ListFooterComponent={() => <Loading />}
                 renderFooter={() => <Loading />}
+                onEndReached={this._onEndReached}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
