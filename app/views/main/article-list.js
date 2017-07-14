@@ -26,7 +26,7 @@ class ArticleList extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchDate()
     }
 

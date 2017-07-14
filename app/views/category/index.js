@@ -19,16 +19,13 @@ class Category extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         store.get('typeList').then(res => {
             this.setState({ tempDate: res || [] })
             this.props.actions.categoryActions.setTypeList(res || [])
+            getTypeList()
+                .then(res => this.setState({ typeList: res.showapi_res_body.typeList }))
         })
-        getTypeList()
-            .then(res => this.setState({ typeList: res.showapi_res_body.typeList }))
-    }
-
-    componentDidMount() {
         this.props.navigation.setParams({ selectType: this.selectType })
     }
 
