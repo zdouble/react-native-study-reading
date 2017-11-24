@@ -3,7 +3,6 @@ import {
     View,
     Text,
     StyleSheet,
-    ListView,
     FlatList,
     Image,
     RefreshControl,
@@ -20,9 +19,8 @@ class ArticleList extends Component {
         this.state = {
             data: [],
             refreshing: false,
-            moreLoading: false,
-            page: 1,
-            dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+            showMoreLoading: true,
+            page: 1
         }
     }
 
@@ -30,25 +28,36 @@ class ArticleList extends Component {
         this.fetchDate()
     }
 
-    fetchDate() {
+    fetchDate(loadMore) {
         getArticleList({ typeId: this.props.typeId, page: this.state.page })
             .then(res => {
-                let data = res.showapi_res_body.pagebean.contentlist.filter(item => !item.expire)
-                if (this.state.moreLoading) {
-                    this.setState({ data: [...this.state.data, ...data] }, () => {
-                        this.setState({
-                            dataSource: this.state.dataSource.cloneWithRows(this.state.data)
-                        })
-                    })
+                let { currentPage, allPages, contentlist } = res.showapi_res_body.pagebean
+
+                let data = contentlist.filter(item => !item.expire)
+
+                if (loadMore) {
+                    data = this.filterData(data)
+                    this.setState({ data: [...this.state.data, ...data] })
                 } else {
-                    this.setState({ data }, () => {
-                        this.setState({
-                            dataSource: this.state.dataSource.cloneWithRows(this.state.data)
-                        })
-                    })
+                    this.setState({ data, showMoreLoading: true, refreshing: false })
                 }
-                this.setState({ moreLoading: false, refreshing: false })
+
+                if (currentPage >= allPages) {
+                    this.setState({ showMoreLoading: false })
+                }
             })
+    }
+
+    // 接口有点问题，可能会返回重复数据，通过id过滤一下
+    filterData(data) {
+        let datas = []
+        data.forEach(element => {
+            if (this.state.data.every(item => item.id !== element.id)) {
+                datas.push(element)
+            }
+        })
+
+        return datas
     }
 
     _renderItem = ({ item: artilce }) => {
@@ -78,43 +87,32 @@ class ArticleList extends Component {
         )
     }
 
-    _renderRow = (rowData, sectionID, rowID, highlightRow) => {
-        let artilce = rowData
-        return <TouchableOpacity
-            style={styles.artilceContainer}
-            onPress={() => this.props.navigation.navigate('WebViewPage', { url: artilce.url, title: artilce.title })}
-        >
-            <Image
-                style={styles.artilceImage}
-                source={{ uri: artilce.contentImg }}
-            />
-            <View style={styles.artilceContent}>
-                <Text
-                    key={artilce._id}
-                    numberOfLines={2}
-                >
-                    {artilce.title}
-                </Text>
-                <View style={styles.artilceInfo}>
-                    <Text style={styles.artilceSource}>{artilce.userName}</Text>
-                    <Text style={styles.artilceDate}>{dateFormat(artilce.date)}</Text>
-                </View>
-            </View>
-
-        </TouchableOpacity>
-    }
-
     _onRefresh = () => {
         // this.props.changeLockedStatus(true)
         this.setState({ refreshing: true, page: 1 }, () => {
             this.fetchDate()
         })
     }
+
     _onEndReached = () => {
-        // this.props.changeLockedStatus(false)
-        this.setState({ moreLoading: true, page: ++this.state.page }, () => {
-            this.fetchDate()
+        if (!this.state.showMoreLoading) {
+            return
+        }
+        this.setState({ page: ++this.state.page }, () => {
+            this.fetchDate(true)
         })
+    }
+
+    _ListFooterComponent = () => {
+        if (this.state.showMoreLoading) {
+            return <Loading />
+        }
+
+        return (
+            <View style={{ alignItems: 'center', marginVertical: 10 }}>
+                <Text>没有更多数据了</Text>
+            </View>
+        )
     }
 
     _keyExtractor = (item, index) => item.id
@@ -124,18 +122,16 @@ class ArticleList extends Component {
         if (!data.length) {
             return <Loading size="large" />
         }
-        // this.state.dataSource.cloneWithRows(this.state.data)
         return (
-            <ListView
-                //data={data}
-                //renderItem={this._renderItem}
-                //getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
-                //keyExtractor={this._keyExtractor}
-                //ListFooterComponent={() => <Loading />}
-                dataSource={this.state.dataSource}
-                renderRow={this._renderRow}
-                renderFooter={() => <Loading />}
+            <FlatList
+                data={data}
+                renderItem={this._renderItem}
+                getItemLayout={(data, index) => ({ length: 87, offset: 87 * index, index })}
+                keyExtractor={this._keyExtractor}
+                extraData={this.state}
+                ListFooterComponent={this._ListFooterComponent}
                 onEndReached={this._onEndReached}
+                onEndReachedThreshold={0.1}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}

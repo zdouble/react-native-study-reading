@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { View, Text } from 'react-native'
 import ScrollableTabView, { ScrollableTabBar } from 'react-native-scrollable-tab-view'
 import ArticleList from './article-list.js'
 
@@ -6,23 +7,25 @@ class Main extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            locked: false
+            show: false
         }
     }
-
-    changeLockedStatus = (State) => {
-        this.setState({ locked: State })
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({show: true})
+        }, 100)
     }
 
     render() {
-        return (
-            <ScrollableTabView
+        let content =
+            <View style={{flex: 1}} />
+        if (this.state.show) {
+            content = <ScrollableTabView
                 renderTabBar={() => <ScrollableTabBar />}
                 tabBarUnderlineStyle={{ backgroundColor: '#3e9ce9', height: 2 }}
                 tabBarActiveTextColor="#3e9ce9"
                 tabBarBackgroundColor="#fff"
-                locked={this.state.locked}
-                style={{ padding: 0 }}
+                style={{ padding: 0, flex: 1 }}
             >
                 {
                     this.props.category.map(item => (
@@ -31,12 +34,12 @@ class Main extends Component {
                             tabLabel={item.name}
                             typeId={item.id}
                             navigation={this.props.navigation}
-                            changeLockedStatus={this.changeLockedStatus}
                         />
                     ))
                 }
             </ScrollableTabView>
-        )
+        }
+        return content
     }
 }
 

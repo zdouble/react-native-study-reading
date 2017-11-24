@@ -22,7 +22,7 @@ const bindBackExitApp = () => {
 }
 
 const removeBackExitApp = () => {
-    handler.remove()
+    handler && handler.remove()
 }
 
 export {
